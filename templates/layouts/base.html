@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block titulo %}{% endblock titulo %}</title>
+    <link rel="stylesheet" href="{% static "css/bootstrap.css" %}">
+    <script defer src="{% static "js/bootstrap.bundle.min.js" %}"></script>
+
+</head>
+<body>
+    {% include "partials/navbar_dropdown.html" %}
+    {% block contenido %}{% endblock contenido %}
+    
+</body>
+</html>

@@ -1,0 +1,35 @@
+{% extends "layouts/base.html" %}
+
+{% block contenido %}
+
+    <header class="py-3">
+        <h1 class="text-center">Actualiza el producto: {{producto.nombre}}</h1>
+    </header>
+
+    <main class="container">
+        <section>
+            <h3>Formulario de actualización de producto</h3>
+
+            <div class="row justify-content-center">
+                <div class="col-12 col-sm-6 col-lg-5">
+                    <form method="post" id="form_update_producto">
+                        {% csrf_token %}
+                        {{form}}
+                        <div class="my-3">
+                            <input type="submit" value="Actualizar" class="btn btn-warning">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+        
+    </main>
+
+
+<style>
+    #form_update_producto input{
+        margin: 5px 0px;
+    }
+</style>
+
+{% endblock contenido %}

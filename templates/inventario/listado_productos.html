@@ -1,0 +1,156 @@
+{% extends "layouts/base.html" %}
+
+{% block contenido %}
+
+
+{% load filtros_productos_extras %}
+
+<header>
+    <h1>Listado de productos</h1>
+
+    <div>
+        <h2>Formulario de filtros:</h2>
+        <form method="get" id="form_filtro_productos">
+            <div>
+                <label for="nombre">Filtro por nombre: </label>
+                <input type="text" value="{{nombre}}" name="nombre" id="nombre" class="input">
+            </div>
+            <div>
+                <label for="precio_min">Filtro precio mínimo: </label>
+                <input type="number" value="{{precio_min}}" name="precio_min" min="0" max="999999999" id="precio_min" class="input">
+            </div>
+            <div>
+                <label for="precio_max">Filtro precio máximo: </label>
+                <input type="number" value="{{precio_max}}" name="precio_max" min="0" max="999999999" id="precio_max" class="input">
+            </div>
+            <div>
+                <label for="fecha_vencimiento_min">Fecha vencimiento mínima: </label>
+                <input type="date" value="{{fecha_vencimiento_min}}" name="fecha_vencimiento_min" id="fecha_vencimiento_min" min="{{limite_min |date:'Y-m-d'}}" max="{{limite_max |date:'Y-m-d'}}" class="input">
+            </div>
+            <div>
+                <label for="fecha_vencimiento_max">Fecha vencimiento máxima: </label>
+                <input type="date" value="{{fecha_vencimiento_max}}" name="fecha_vencimiento_max" id="fecha_vencimiento_max" min="{{limite_min |date:'Y-m-d'}}" max="{{limite_max |date:'Y-m-d'}}" class="input">
+            </div>
+
+            <div>
+                <input type="submit" value="Buscar">
+                <input type="reset" value="limpiar" id="reset_form_busqueda">
+            </div>
+        </form>
+    </div>
+
+    <div>
+        <h3>Listado de productos</h3>
+        <p>Cantidad de productos: {{productos|length}}</p>
+        
+            <section class="container">
+                <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Precio</th>
+                        <th scope="col">Stock</th>
+                        <th scope="col">fech. venc.</th>
+                        <th scope="col">Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {% for producto in productos %}
+                            <tr>
+                                <th scope="row">{{producto.id}}</th>
+                                <td>{{producto.nombre|currency}}</td>
+                                <td>{{producto.precio|currency}}</td>
+                                <td>{{producto.stock}}</td>
+                                {% if  producto.fecha_vencimiento%}
+                                <td>{{producto.fecha_vencimiento|date:"d/m/Y"}}</td>
+                                {% else %}
+                                <td>N/A</td>
+                                {% endif %}
+                                <td>
+                                    <a class="btn btn-warning" href="{% url "update_producto" producto.id %}">Editar</a>
+
+                                    <a data-producto_id="{{producto.id}}" class="btn btn-danger btn-eliminar" href="{% url "delete_producto" producto.id %}" id="btn_eliminar{{producto.id}}">Eliminar</a>
+
+                                    <button class="btn btn-danger" type="button" disabled style="display:none;" id="spinner_eliminar{{producto.id}}">
+                                        <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                                        <span role="status">Eliminando</span>
+                                    </button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                  </table>
+            </section>
+        </div>
+    <hr>
+    <div>
+        <h3>Listado de categorias</h3>
+        <p>Cantidad de categorias: {{categorias|length}}</p>
+        <ol>
+        {% for categoria in categorias %}
+            <li>{{categoria.nombre}}</li>
+        {% endfor %}
+        </ol>
+    </div>
+    
+    
+</header>
+
+
+
+<script>
+    const reset_form_busqueda = document.getElementById("reset_form_busqueda");
+    const form_filtro_productos = document.getElementById("form_filtro_productos");
+
+    reset_form_busqueda.addEventListener("click", (event) => {
+        event.preventDefault();
+
+        /*
+        console.log("limpiando formulario")
+        nombre.value = null;
+        precio_min.value = null
+        precio_max.value = null
+        fecha_vencimiento_min.value = null
+        fecha_vencimiento_max.value = null
+        */
+
+        let inputs = document.querySelectorAll('.input');
+
+        inputs = [...inputs]
+
+        for (const input of inputs) {
+            input.value = null
+        }
+    
+        form_filtro_productos.submit()
+    })
+
+
+    // lógica para capturar evento de los enlaces eliminar
+
+    let btns_eliminar = document.querySelectorAll(".btn-eliminar");
+    btns_eliminar = [...btns_eliminar];
+
+    btns_eliminar.forEach(boton => {
+        boton.addEventListener("click", (event) => {
+            event.preventDefault();
+            producto_id = boton.dataset.producto_id;
+            confirmacion = confirm(`¿Está seguro que desea eliminar el producto con ID ${producto_id}?`)
+
+            if(confirmacion){
+
+                spinner_eliminar = "spinner_eliminar"+producto_id
+                btn_eliminar = "btn_eliminar"+producto_id
+                
+                document.getElementById(btn_eliminar).style.display = "none";
+                document.getElementById(spinner_eliminar).style.display = "inline-block";
+
+                location.href = boton.href
+            }
+        })
+    })
+
+</script>
+
+{% endblock contenido %}

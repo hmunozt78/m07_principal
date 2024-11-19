@@ -1,0 +1,47 @@
+{% extends "layouts/base.html" %}
+
+{% block contenido %}
+
+    <header class="py-3">
+        <h1 class="text-center">Agrega un nuevo producto.</h1>
+    </header>
+
+    <main class="container">
+        <section>
+            <h3>Formulario de creación de productos</h3>
+
+            <div class="row justify-content-center">
+                <div class="col-12 col-sm-6 col-lg-5">
+                    <form method="post" id="form_add_producto">
+                        {% csrf_token %}
+                        {{form}}
+                        <div>
+                            <input type="submit" value="Crear" class="btn btn-primary" id="btn-crear">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+        
+    </main>
+
+
+<style>
+    #form_add_producto input{
+        margin: 5px 0px;
+    }
+</style>
+
+<script>
+    const form_add_producto = document.getElementById("form_add_producto")
+
+    form_add_producto.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        document.getElementById("btn-crear").setAttribute("disabled", true)
+
+        form_add_producto.submit()
+    })
+</script>
+
+{% endblock contenido %}
