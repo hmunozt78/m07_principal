@@ -1,0 +1,22 @@
+{% extends "layouts/base.html" %}
+
+{% block contenido %}
+
+    <header>
+        <h1 class="text-center py-3">Detalle del estudiante: {{estudiante.nombre}} {{estudiante.apellido}}</h1>
+    </header>
+
+    <main class="container py-5">
+        <section id="cursos_inscritos">
+            <h3>Cursos inscritos:</h3>
+
+            <ol>
+                {% for curso in estudiante.cursos.all %}
+                    <li>{{curso.nombre}}</li>
+                {% endfor %}
+            </ol>
+            
+        </section>
+
+    </main>
+{% endblock contenido %}

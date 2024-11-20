@@ -1,0 +1,17 @@
+<div class="card">
+    <a href="{% url "detalle_curso" curso.id %}">
+    <img 
+        {% if curso.imagen %}
+            src="{{curso.imagen}}"
+        {% else %}
+            src="https://st3.depositphotos.com/16203680/19307/v/950/depositphotos_193076602-stock-illustration-question-mark-hand-drawn-symbol.jpg"
+        {% endif %}
+        class="card-img-top p-2" 
+        alt="{{curso.nombre}}">
+    </a>
+    <div class="card-body">
+      <p class="card-text">{{curso.nombre}}</p>
+      <p class="card-text">{{curso.descripcion}}</p>
+      <p class="card-text">Est. inscritos: {{curso.estudiantes.all|length}}</p>
+    </div>
+</div>

@@ -1,0 +1,18 @@
+{% extends "layouts/base.html" %}
+
+{% block contenido %}
+    <header>
+        <h1 class="text-center py-3">Listado de estudiantes</h1>
+    </header>
+    
+    <main class="container py-5">
+        <section id="lista_estudiantes">
+            <h2>Estudiantes</h2>
+            
+            <div>
+                {% include 'partials/tabla_estudiantes.html' with estudiantes=estudiantes %}
+            </div>
+
+        </section>
+    </main>
+{% endblock contenido %}

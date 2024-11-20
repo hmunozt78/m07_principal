@@ -1,0 +1,29 @@
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Apellido</th>
+        <th scope="col">Cursos</th>
+        <th scope="col">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for estudiante in estudiantes %}
+        <tr>
+            <th scope="row">{{estudiante.id}}</th>
+            <td>{{estudiante.nombre}}</td>
+            <td>{{estudiante.apellido}}</td>
+            <td>
+                
+                {% for curso in estudiante.cursos.all %}
+                    <p><a href="{% url "detalle_curso" curso.id %}">{{curso.nombre}}</a></p>
+                {% endfor %}
+            </td>
+            <td>
+                <a href="{% url "detalle_estudiante" estudiante.id%}" class="btn btn-primary">Ver más</a>
+            </td>
+          </tr>
+        {% endfor %}
+    </tbody>
+  </table>

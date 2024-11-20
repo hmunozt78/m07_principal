@@ -1,0 +1,20 @@
+{% extends "layouts/base.html" %}
+
+
+{% block contenido %}
+<header>
+    <h1>Página de registro de usuarios</h1>
+</header>
+
+<main class="container">
+    <section>
+        <form method="post">
+            {% csrf_token %}
+            {{form}}
+
+            <input type="submit" value="Crear usuario">
+        </form>
+    </section>
+</main>
+
+{% endblock contenido %}
